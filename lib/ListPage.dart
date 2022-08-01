@@ -3,6 +3,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_flutter/DatabaseProvider.dart';
 import 'package:sqflite_flutter/NotesModel.dart';
 
+import 'taskDAO.dart';
+
 class ListPage extends StatefulWidget {
   const ListPage({Key? key, required this.title}) : super(key: key);
 
@@ -43,11 +45,11 @@ class _ListPageState extends State<ListPage> {
                 }
                 if (itemPosition < 0) {
                 } else {
-                  var tempExpense = NotesModel(0, _task.text.toString(),
-                      0, id: null);
+                  var tempExpense = NotesModel(
+                      task: _task.text.toString(), isCompleted: 0, id: 0);
                   expenseModel[itemPosition] = tempExpense;
-                  DatabaseProvider dbProvider = new DatabaseProvider();
-                  DatabaseProvider.
+                  taskDAO taskDao = new taskDAO();
+                  taskDao.inserttask(tempExpense);
 
                   //    expenseModel.removeAt(itemPosition);
                 }
@@ -73,14 +75,16 @@ class _ListPageState extends State<ListPage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              '_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          showAlertDialog(-1);
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
