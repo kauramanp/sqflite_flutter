@@ -5,29 +5,17 @@ import 'DatabaseProvider.dart';
 
 class taskDAO {
   Future<void> inserttask(NotesModel task) async {
-    // Get a reference to the database.
-    final db = await DatabaseProvider().database;
-
-    // Insert the task into the correct table. You might also specify the
-    // `conflictAlgorithm` to use in case the same task is inserted twice.
-    //
-    // In this case, replace any previous data.
-    await db.insert(
+    final db = await DatabaseProvider().db;
+    await db!.insert(
       'task',
       task.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  // A method that retrieves all the task from the tasks table.
   Future<List<NotesModel>> tasks() async {
-    // Get a reference to the database.
-    final db = await DatabaseProvider().database;
-
-    // Query the table for all The tasks.
-    final List<Map<String, dynamic>> maps = await db.query('tasks');
-
-    // Convert the List<Map<String, dynamic> into a List<NotesModel>.
+    final db = await DatabaseProvider().db;
+    final List<Map<String, dynamic>> maps = await db!.query('task');
     return List.generate(maps.length, (i) {
       return NotesModel(
         id: maps[i]['id'],
@@ -35,5 +23,25 @@ class taskDAO {
         isCompleted: maps[i]['isCompleted'],
       );
     });
+  }
+
+  Future<void> updateTask(NotesModel notesModel) async {
+    final db = await DatabaseProvider().db;
+    await db!.update(
+      'task',
+      notesModel.toMap(),
+      where: 'id = ?',
+      whereArgs: [notesModel.id],
+    );
+  }
+
+  Future<void> deleteNotes(int id) async {
+    final db = await DatabaseProvider().db;
+
+    await db!.delete(
+      'task',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }

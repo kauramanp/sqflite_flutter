@@ -3,8 +3,6 @@ class NotesModel {
   final String task;
   final int isCompleted;
 
-  //NotesModel(this.task, this.isCompleted);
-  // NotesModel(this.id, this.task, this.isCompleted, {required id});
   const NotesModel({
     required this.id,
     required this.task,
@@ -19,8 +17,6 @@ class NotesModel {
     };
   }
 
-  // Implement toString to make it easier to see information about
-  // each dog when using the print statement.
   @override
   String toString() {
     return 'Task{id: $id, task: $task, isCompleted: $isCompleted}';
