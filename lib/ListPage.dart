@@ -73,12 +73,15 @@ class _ListPageState extends State<ListPage> {
                       isCompleted: 0,
                       id: notesModel.length);
                   taskDao.inserttask(tempExpense);
+                  getList();
                 } else {
                   var tempExpense = NotesModel(
                       task: _task.text.toString(),
                       isCompleted: 0,
                       id: notesModel[itemPosition].id);
                   taskDao.updateTask(tempExpense);
+                  getList();
+
                   //    expenseModel.removeAt(itemPosition);
                 }
                 setState(() {});

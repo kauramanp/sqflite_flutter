@@ -14,7 +14,7 @@ class DatabaseProvider {
       join(await getDatabasesPath(), _databaseName),
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE task(id INTEGER PRIMARY KEY, task TEXT, isCompleted INTEGER)',
+          'CREATE TABLE task(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, task TEXT, isCompleted INTEGER)',
         );
       },
       version: 1,
